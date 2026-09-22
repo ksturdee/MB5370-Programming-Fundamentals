@@ -1,0 +1,48 @@
+---
+title: "Workshop4"
+author: "Kendra"
+date: "2026-09-22"
+output: html_document
+---
+
+AI-Driven Workshop 4: Data Analysis and Visualization in R
+
+```{r setup, include=FALSE}
+# AI-Driven Workshop: Data Analysis and Visualization in R
+# This workshop uses the palmerpenguins dataset to demonstrate data analysis and visualization techniques in R.
+
+# Load tidyverse and palmerpenguins libraries
+library(palmerpenguins)
+library(tidyverse)
+
+# Create a ggplot scatter plot using the penguins dataset. Plot bill_length_mm on the x_axis and bill_depth_mm on the y-axis. Color points by species and use geom_point with size 3. Add a minimal theme and clean labels.
+
+ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = species)) +
+  geom_point(size = 3) +
+  theme_minimal() +
+  labs(title = "Bill Length vs Bill Depth by Species",
+       x = "Bill Length (mm)",
+       y = "Bill Depth (mm)",
+       color = "Species")
+```
+
+
+```{r}
+# Build a scatter plot ussing ggplot mapping body_mass_g against flipper_length_mm, adding a linear regression trend line (geom_smooth) for each species. Add a classic theme and clean labels, publication style. Make the points jitter and color them in earth tones.
+
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+  geom_jitter(size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", se = FALSE) +
+  theme_classic() +
+  scale_color_manual(values = c("darkgreen", "saddlebrown", "goldenrod")) +
+  labs(title = "Body Mass vs Flipper Length by Species",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species")
+
+# It works best when you are as specific as possible; I clarified that I wanted the points to be jittered and colored in earth tones. I also specified that I wanted a linear regression trend line for each species, and that I wanted a classic theme with clean labels, publication style.
+```
+```{r}
+
+```
+
