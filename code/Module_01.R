@@ -1,0 +1,177 @@
+
+  # MB5370: Techniques in Marine Science 1
+  # Programming Fundamentals
+  # Kendra Sturdee
+  # 15 September 2026
+  
+  #------------------------------------#
+  # Workshop 01. Introduction ####
+
+
+# Basic arithmetic (e.g. wrangling sea surface temperatures)
+24.5 + 1.2
+32.0 / 4
+
+# R syntax and working in scripts ####
+# This section introduces us to R by running simple calculations inside a script.
+
+2+1
+
+# Making a sequence of numbers, use ":"
+
+1:30
+
+## [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 [26] 26 27 28 29 30
+# The number in bracets is the index number, changes depending on how big the console window is 
+
+
+# Functions and arguements ###
+years_old <- 25.73492
+round(years_old) # rounds up
+floor(years_old) # rounds down
+
+# Functions have arguements; round has an argument that lets you specify how many decimal places you want to round a number to.
+
+round(years_old, 2) # 2 decimal places
+round(years_old, 3)
+
+# Use args(xxx), where xxx is the function, to see what arguements are available or can do ?xxx which goes to help
+
+args(round) 
+# gives: function (x, digits = 0) NULL
+
+
+# Objects and Assignment
+## This section focuses on understanding how data is stored in R and why that matters.
+
+
+# To save a value as an object or variable...
+coral_count <- 42
+
+# To save a vector of multiple fish lengths (in mm)
+fish_lengths <- c(124, 152, 98, 221, 146)
+
+coral_count + 1
+# 43
+
+coral_count + coral_count
+# 84
+
+# Field survey data
+quadrat_area_m2 <- 0.25
+number_of_quadrats <- 16
+total_area_surveyed <- quadrat_area_m2 * number_of_quadrats
+
+# Let's print out the result
+print(total_area_surveyed)
+
+
+# Common packages needed, must be loaded before each session
+library(tidyverse)
+library (dplyr)
+library (ggplot2)
+
+# Help for packages can be found through ?tidyverse as an example
+
+?tidyverse
+
+
+# Data types ###
+
+
+# Numeric (numeric / double): Continuous decimals (e.g., pH levels: 8.1, 7.95).
+
+#Integer (integer): Whole numbers (e.g., count of sea turtles spotted: 5L).
+
+#Character (character): Text strings enclosed in quotation marks (e.g., species name: "Acanthaster planci").
+
+#Logical (logical): Boolean values that are either TRUE or FALSE (e.g., Bleaching observed: TRUE).
+
+# Assign variable values
+site_name <- "Heron_Island"
+transect_depth_m <- 12.5
+bleaching_present <- TRUE
+
+# Check using finction class()
+class(site_name)
+class(transect_depth_m)
+class(bleaching_present)
+
+#[1] "character"
+#[1] "numeric"
+#[1] "logical"
+
+# Check using function str()
+str(site_name)
+str(transect_depth_m)
+str(bleaching_present)
+
+# chr "Heron_Island"
+# num 12.5
+# logi TRUE
+
+# Results are the same for class() and str() but sometimes one makes more sense to run
+
+
+## Exercise in rounding numbers
+
+# Tracking the age of an old-growth Porites coral colony
+years_old <- 25.765
+
+# Clean this up for our summary report
+round(years_old, 2)
+
+## Manipulating outputs
+
+
+# Make variables
+years_old <- 25.765
+rounded_age <- round(years_old, 1)
+
+# Combine text and data variables
+paste("Average colony age is", rounded_age, "years old")
+
+# [1] "Average colony age is 25.76 years old"
+
+
+# Data structures ###
+# Elements of data types can be combined to form a data structure. Think of elements as what you would put in a single cell in excel, with the whole spreadsheet the data structure.
+
+# Elements include atomic vector (collection of elements, most commonly of character, integer, logical, numeric), list, matrix, data frame, factors
+
+
+# Remember we already made fish_lengths a vector with numeric elements
+fish_lengths
+
+# Can also make character element vectors
+coral_spp <- c("Porites", "Acropora", "Montastrea")
+print(coral_spp)
+
+class(fish_lengths)
+class(coral_spp)
+
+# Lists
+
+
+
+# Data frames and tibbles
+
+
+my_dataframe <- data.frame(
+  no = c(1, 2, 3), 
+  genus = c("Plectropomus", "Scarus", "Pomacentrus"), 
+  presence = c(TRUE, FALSE, TRUE)
+)
+
+# 2. Print the dataframe (just as plain text)
+as.matrix(my_dataframe)     
+
+my_dataframe$no = as.factor(my_dataframe$no)
+str (my_dataframe) 
+# A factor is a categorical type
+
+
+### 1.8 R Projects and workspace architecture ###
+
+
+

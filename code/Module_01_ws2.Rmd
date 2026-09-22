@@ -1,0 +1,258 @@
+---
+title: "Module_01_ws2"
+author: "Kendra Sturdee"
+date: "2026-09-15"
+output: html_document
+---
+
+<!-- Exercise in learning ggplot -->
+
+```{r}
+# load packages first
+
+library(tidyverse)
+
+# load practice dataset
+
+print(mpg)
+?mpg
+```
+```{r}
+# Create a plot
+# Use this template always:
+# ggplot(data = <DATA>) + 
+  # <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# This shows the basic data but we can add colour by class
+```
+```{r}
+# Showing type of car
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, colour = class))
+```
+```{r}
+# Change point size by class now
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = class, size = class))
+
+# It's cool to combine 
+```
+```{r}
+# Change point by transparency (alpha) too, or type of point (shape) by class
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, size = class, color = class, alpha = class, shape = class))
+
+# Right now though R is choosing the colours, can choose it manually (see below)
+```
+```{r}
+# Set some things manually
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+# In this example, it simply changes the appearance of the plot, it doesn’t show anything about the nature of the variable you’ve plotted.
+```
+```{r}
+# How to make facets and panel plots
+# To facet your plot using a single variable, use facet_wrap()
+  # the ~ dictates which variable you want to subset your data with
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_wrap(~ class, nrow = 2) 
+
+# must start facet on new line outside of geom_point brackets. This now seperates the data by variable CLASS, and we specified that we wanted two rows visually
+
+# If you want more than one variable then you have to use facet_grid
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ cyl)
+
+# This maps your x and y, (displ versus hwy), seperated by both drv and cycl. The ~ seperates them within facet_grid. But! If you don't want to facet in the rows or columns dimension you have to use a .
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = cyl)) +
+  facet_grid(. ~ cyl)
+
+# The difference is now the columns share y axis
+
+```
+
+
+```{r}
+# So far we have only used geom_point, but we can make other types of charts too!
+
+ggplot(data = mpg) + # notice same format, just switched geom_point for geom_smooth
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+# Before we had a scatterplot, but now we have a smooth line fit through the points
+
+# If it looks bad we can also change the line type (like we did with colors, occupies same sort of editing process)
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
+
+# This looks bad but it seperates the data by drv. You can see what's going on if you layer the geoms (geoms are layers, can add a geom smooth to a geom point...)
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv)) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = drv))
+
+# This just shows what the lines were doing in relation to the point (second graph)
+```
+```{r}
+# if you want to group objects by a categorical variable (like species or sex or site)
+# Must use group()... Set the group aesthetic to a categorical variable to draw multiple objects.
+
+ggplot(data = mpg) +
+  geom_smooth(
+    mapping = aes(x = displ, y = hwy, color = drv),
+    show.legend = TRUE) +
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# NOTICE how you had to write things out twice, for both geom layers... This is inefficient. Try:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+# This puts global arguements that you want for the whole plot before the layers which will then follow them
+
+# You can still specifc within geom layers tho if you want to show niche differences. Ex:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+
+# This third plot specifies the data, chooses the global x and y variables, but then adds style seperately to geom_point to show color by CLASS (where points were black before)
+
+
+
+```
+```{r}
+# Now if you want to plot only a subset of a data set... you need a filter.
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + # Notice same global structure
+  geom_point(mapping = aes(color = class)) + # Specifies what you want points to look like
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE) 
+
+# The final line specifies that you only want to plot subcompact data. Subcompact is a value within CLASS (column), so out of all the cars of that class we only plotted subcompact ones
+```
+```{r}
+# To draw a line chart, you can use geom_smooth and play with "linetype". To make a boxplot you can use geom_boxplot. Histograms use geom_h
+
+ggplot(data = mpg, mapping  = aes(x = manufacturer, y = hwy, color = manufacturer)) +
+  geom_boxplot()
+
+ggplot(data = mpg, mapping  = aes(x = hwy)) +
+       geom_histogram() # you map a single continuous numeric variable to the x-axis
+
+# To make an area chart: geom_area()
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy, color = manufacturer)) +
+  geom_area()
+
+
+```
+```{r}
+# Transformations and Stats
+
+# Using the diamonds dataset now 
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut)) # Shows a count of cut quality 
+
+# Can make the same graph manually (R fills in the "count") using stat_count()
+
+ggplot(data = diamonds) +
+  stat_count(mapping = aes( x = cut))
+
+# Can override the "default" RStudio provides though
+
+demo <- tribble(
+  ~cut,         ~freq,
+  "Fair",       1610,
+  "Good",       4906,
+  "Very Good",  12082,
+  "Premium",    13791,
+  "Ideal",      21551
+)
+demo
+
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+
+
+# You can also override a default mapping from transformed variables to aesthetics. For instance, you could display a bar chart of the proportion of your total diamond dataset rather than a count.
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = stat(prop), group = 1)) # Notice it is now a proportion not a count (the former is the default)
+
+# Show more about the dataset with stat_summary() to plot statistical details
+
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.min = min,
+    fun.max = max,
+    fun = median
+  )
+```
+```{r}
+# Aesthetic adjustments to convey information
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, color = cut)) # This give the bar outlines color
+
+ggplot(data = diamonds) +
+  geom_bar(mapping = aes(x = cut, fill = cut)) # This fills bar color
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity)) 
+
+# Position arguements to customize identity, fill, and dodge
+
+#To alter transparency (alpha)
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+#To color the bar outlines with no fill color
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
+  geom_bar(fill = NA, position = "identity") # removes fill (NA)
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "fill")
+
+# Position = fill works like stacking, makes stacked bars same height
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+# Dodge places overlapping objects BESIDE each other. Now you can clearly see counts of each cut divided by clarity type
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+# Jitter makes it so you can see overlapping points (best for scatter plots)
+```
+```{r}
+# Layered grammar of graphics
+# This is the new template for more complex, customized graphs
+
+# ggplot(data = <DATA>) + 
+  # <GEOM_FUNCTION>(
+  #    mapping = aes(<MAPPINGS>),
+  #    stat = <STAT>, 
+  #    position = <POSITION>
+  # ) +
+  # <FACET_FUNCTION>
+
+getwd()
+
+```
+
