@@ -30,7 +30,8 @@ ggplot(data = penguins, aes(x = bill_length_mm, y = bill_depth_mm, color = speci
 ```{r}
 # Build a scatter plot ussing ggplot mapping body_mass_g against flipper_length_mm, adding a linear regression trend line (geom_smooth) for each species. Add a classic theme and clean labels, publication style. Make the points jitter and color them in earth tones.
 
-ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
+
+PenguinsFigure <- ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = species)) +
   geom_jitter(size = 3, alpha = 0.7) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_classic() +
@@ -40,9 +41,175 @@ ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g, color = spec
        y = "Body Mass (g)",
        color = "Species")
 
+
 # It works best when you are as specific as possible; I clarified that I wanted the points to be jittered and colored in earth tones. I also specified that I wanted a linear regression trend line for each species, and that I wanted a classic theme with clean labels, publication style.
 ```
+
 ```{r}
+library(chattr)
+library(ellmer)
+
+# Base R Simple Example: Checking Sea Surface Temperature (SST)
+sst <- 30.2
+
+if (sst > 29.5) {
+  print("Warning: Marine heatwave threshold exceeded!")
+} else {
+  print("SST remains within baseline parameters.")
+}
+
+# This code checks the sea surface temperature (SST) against a threshold value of 29.5°C.The "if" statement evaluates whether the SST exceeds this threshold. If it does, a warning message is printed indicating that the marine heatwave threshold has been exceeded. If the SST is within the baseline parameters, a message confirming that is printed instead. This simple check can be useful for monitoring ocean conditions and identifying potential heatwave events.
+```
+```{r}
+# Load tidyverse (if not already loaded)
+library(tidyverse)
+
+# Sample coral data
+coral_monitoring <- tibble(
+  site = c("Site_A", "Site_B", "Site_C"),
+  depth_m = c(12, 35, 8)
+)
+
+# Classify depth using if_else
+coral_monitoring <- coral_monitoring %>% 
+  mutate(zone = if_else(depth_m > 30, "Deep Reef", "Shallow Reef"))
+
+# The `mutate` function is used to create a new COLUMN called `zone` in the `coral_monitoring` dataset. It applies the `if_else` function to classify each site based on its depth. If the depth is greater than 30 meters, the site is classified as "Deep Reef"; otherwise, it is classified as "Shallow Reef". This allows for easy categorization of coral monitoring sites based on their depth.
+
+# We can get more information about the `mutate` and `if_else` functions by using the `?` operator in R. For example, typing `?mutate` or `?if_else` in the R console will bring up the documentation for these functions, providing details on their usage, arguments, and examples. The `%>%` symbol is known as the pipe operator, which is part of the `magrittr` package and is widely used in the `tidyverse`. It allows for chaining commands together in a readable manner, passing the output of one function directly into the next function. This makes it easier to write and understand complex data manipulation workflows.
+```
+
+```{r}
+# The case_when() function in R is used for vectorized conditional statements, allowing you to create new variables based on multiple conditions. It is part of the dplyr package and is often used within the mutate() function to create new columns in a data frame. Example:
+
+coral_monitoring <- coral_monitoring %>% 
+  mutate(reef_category = case_when(
+    depth_m < 10  ~ "Lagoon / Flats",
+    depth_m <= 30 ~ "Crest / Slope",
+    depth_m > 30  ~ "Mesophotic / Deep",
+    TRUE          ~ "Unclassified" # Catch-all remainder
+  ))
+
+# Task:  Environmental Stress Classification
+# Using the chattr app or inline copilot, your task here is to write an R script that initialises a tibble named marine_stations containing a column for salinity with values 35, 28, 32, and 12. Use the pipe operator (%>%) and mutate() combined with case_when() to create a new column named environment_type. Classify values below 15 as "Estuarine", values between 15 and 30 as "Brackish", and values above 30 as "Marine". Run your script and verify the table structure.
+
+marine_stations <- tibble( salinity = c(35, 28, 32, 12) ) %>% mutate( environment_type = case_when( salinity < 15 ~ "Estuarine", salinity >= 15 & salinity <= 30 ~ "Brackish", salinity > 30 ~ "Marine" ) )
+
+marine_stations
+
+glimpse(marine_stations)
+```
+```{r}
+# Automation — Iterating Efficiently
+# Base R: for-loops. A for-loop repeats a code chunk for each element in a designated sequence.
+
+# Classic loop anatomy
+for (year in 2020:2024) {
+  print(paste("Processing climate data for year:", year))
+}
+
+# Loop across index sequences
+transect_lengths <- c(50, 100, 25, 75)
+
+for (i in seq_along(transect_lengths)) {
+  print(paste("Transect number", i, "measures", transect_lengths[i], "metres."))
+}
+
+# I created two for-loops in R. The first loop iterates over a sequence of years from 2020 to 2024, printing a message for each year indicating that climate data is being processed. The second loop iterates over the indices of a vector called transect_lengths, which contains different transect measurements. For each index, it prints a message indicating the transect number and its corresponding length in metres. This demonstrates how to use for-loops to automate repetitive tasks in R.
 
 ```
+```{r}
+# Functional Programming (purrr)
+
+# Using a standard for-loop:
+site_areas <- c(144, 400, 625)
+results <- numeric(length(site_areas)) # Must build an empty container first
+
+for(i in seq_along(site_areas)) {
+  results[i] <- sqrt(site_areas[i])}
+
+# Using the purrr equivalent:
+library(purrr)
+# Map directly and define your expected output type explicitly
+mapped_results <- map_dbl(site_areas, sqrt)
+
+# Iterating Across Complex Groups
+# You can combine purrr pipelines seamlessly inside data frames to split analysis across separate groups:
+# Iterate a summary function over split lists of data
+iris %>% 
+  split(.$Species) %>% 
+  map(~summary(.x))
+```
+```{r}
+# I have a list of three vectors containing fish count data. Write a for-loop to calculate the mean of each, and then show me the exact parallel way to do it using purrr's map_dbl function." Compare the visual simplicity.
+
+fish_counts <- list(
+  c(12, 15, 18, 20),
+  c(8, 11, 14, 17),
+  c(25, 30, 28, 32)
+)
+
+means1 <- numeric(length(fish_counts))
+
+for (i in seq_along(fish_counts)) {
+  means1[i] <- mean(fish_counts[[i]])
+}
+
+means1
+
+# Parellel equivalent
+
+library(purrr)
+
+means2 <- map_dbl(fish_counts, mean)
+
+means2
+
+# Visual comparison
+for (i in seq_along(fish_counts)) {
+  means1[i] <- mean(fish_counts[[i]])
+}
+```
+```{r}
+# Writing custom functions
+
+# Function Definition
+calculate_coral_mortality <- function(initial_count, surviving_count) {
+  
+  # Logic safety switch using our conditional tools!
+  if (initial_count <= 0) {
+    stop("Initial count must be greater than zero.")
+  }
+  
+  mortality_rate <- (initial_count - surviving_count) / initial_count
+  return(mortality_rate)
+}
+
+# Utilizing your custom function
+calculate_coral_mortality(initial_count = 120, surviving_count = 84)
+
+```
+```{r}
+# Build a custom function named convert_temp_c_to_f that accepts a single argument representing temperature in Celsius. The function should perform the math conversion: F = (C * 9/5) + 32. Include a conditional safety check using an if statement that halts execution via stop() if the entered value is below absolute zero (-273.15 degrees Celsius). Test your function with both a valid temperature and an invalid value to ensure the error handling behaves as expected.
+
+convert_temp_c_to_f <- function(temp_c) {
+  # Safety check for absolute zero
+  if (temp_c < -273.15) {
+    stop("Temperature cannot be below absolute zero (-273.15°C).")
+  }
+  
+  # Conversion formula
+  temp_f <- (temp_c * 9/5) + 32
+  return(temp_f)
+}
+
+# Test with a valid temperature
+test_temp <- convert_temp_c_to_f(25)
+test_temp
+
+# Test with an invalid temperature
+# convert_temp_c_to_f(-300)
+# Returns: Error in convert_temp_c_to_f(-300) : Temperature cannot be below absolute zero (-273.15°C).
+```
+
 
