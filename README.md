@@ -1,3 +1,27 @@
-I am developing skills in marine data science, reproducible research, spatial analysis, and scientific programming through my studies at James Cook University.
-
-This repository is for coding and other work related to MB5370 Module 1
+# MB5370 Programming Fundamentals
+ 
+This repository contains coursework and practical exercises completed for MB5370 Techniques in Marine Science 1 at James Cook University.
+ 
+## Learning Outcomes
+ 
+Through this module I developed skills in:
+- R Programming
+- Git and GitHub
+- Quarto
+- Data Visualisation with ggplot2
+- Reproducible Research
+- Scientific Workflow Design
+ 
+## Repository Structure
+code/
+R scripts from workshop activities
+docs/
+Rendered reports and Quarto files
+figures/
+Visualisations generated during workshops
+data/
+Supporting datasets
+ 
+## Portfolio Website
+ 
+https://sites.google.com/view/kendraporfolio
