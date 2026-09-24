@@ -15,8 +15,8 @@ Through this module I developed skills in:
  
 The figure below was produced during Workshop 2 using the Palmer Penguins dataset and demonstrates data visualisation techniques using ggplot2.
  
-figures/Penguins_Figure.jpeg
 ![Penguins Figure](figures/Penguins_Figure.jpeg)
+
 ## Repository Structure
 code/
 R scripts from workshop activities
