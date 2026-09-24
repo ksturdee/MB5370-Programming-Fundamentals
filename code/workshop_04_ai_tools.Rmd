@@ -1,5 +1,5 @@
 ---
-title: "Workshop4"
+title: "workshop_04_ai_tools"
 author: "Kendra"
 date: "2026-09-22"
 output: html_document

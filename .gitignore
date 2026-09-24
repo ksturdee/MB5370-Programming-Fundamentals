@@ -1,6 +1,13 @@
+# RStudio project files
 .Rproj.user
+ 
+# R session files
 .Rhistory
-.Rdata
-.httr-oauth
+.RData
+.Ruserdata
+ 
+# macOS system files
 .DS_Store
+ 
+# Quarto cache
 .quarto

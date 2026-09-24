@@ -11,19 +11,24 @@ Through this module I developed skills in:
 - Data Visualisation with ggplot2
 - Reproducible Research
 - Scientific Workflow Design
+ 
 ## Featured Visualisation
  
 The figure below was produced during Workshop 2 using the Palmer Penguins dataset and demonstrates data visualisation techniques using ggplot2.
  
-![Penguins Figure](figures/Penguins_Figure.jpeg)
-
+figures/Penguins_Figure.jpeg
+ 
 ## Repository Structure
+ 
 code/
 R scripts from workshop activities
+ 
 docs/
 Rendered reports and Quarto files
+ 
 figures/
 Visualisations generated during workshops
+ 
 data/
 Supporting datasets
  

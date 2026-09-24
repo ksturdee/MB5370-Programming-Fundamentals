@@ -1,5 +1,5 @@
 ---
-title: "Module_01_ws2"
+title: "workshop_02_visualisation"
 author: "Kendra Sturdee"
 date: "2026-09-15"
 output: html_document
