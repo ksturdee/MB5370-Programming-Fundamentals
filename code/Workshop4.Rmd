@@ -7,7 +7,7 @@ output: html_document
 
 AI-Driven Workshop 4: Data Analysis and Visualization in R
 
-```{r setup, include=FALSE}
+```{r Setup , include=FALSE}
 # AI-Driven Workshop: Data Analysis and Visualization in R
 # This workshop uses the palmerpenguins dataset to demonstrate data analysis and visualization techniques in R.
 
