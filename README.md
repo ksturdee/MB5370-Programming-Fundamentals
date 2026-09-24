@@ -15,7 +15,7 @@ Coursework and practical exercises completed for MB5370: Techniques in Marine Sc
  
 The figure below was developed during Workshop 4 using the Palmer Penguins dataset.
  
-figures/Penguins_Figure.jpeg
+!figures/Penguins_Figure.jpeg
  
 ## Repository Structure
  
